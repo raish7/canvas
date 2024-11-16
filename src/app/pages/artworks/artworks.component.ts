@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgFor } from '@angular/common';
+import { Router } from '@angular/router';
 interface Image {
   url: string;
   alt: string;
@@ -13,6 +14,7 @@ interface Image {
   styleUrl: './artworks.component.scss'
 })
 export class ArtworksComponent {
+  constructor(private router: Router) {}
   images: Image[] = [];
   artworks = [
     {
@@ -177,5 +179,9 @@ export class ArtworksComponent {
       columns[index % columnCount].push(image);
     });
     return columns;
+  }
+
+  navigateToArtworksDetail(image: any) {
+    this.router.navigate(['artworks', 2]);
   }
 }

@@ -11,7 +11,7 @@
           <img
             [src]="artwork.image"
             [alt]="'Artwork ' + artwork.title"
-            class="w-full h-80 object-cover"
+            class="w-full h-80 object-cover cursor-pointer"
           />
           <div
             class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -36,12 +36,17 @@
               >${{ artwork.price }}</span
             >
             <!-- <button
-              class="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-4 py-2 flex items-center"
+            class="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-4 py-2 flex items-center"
             >
             <i class="bi bi-bag mr-2"></i>
-              Add to Cart
-            </button> -->
-          </div>
+            Add to Cart
+          </button> -->
+        </div>
+        <div class="pt-3 flex flex-wrap gap-2">
+          <span class="border-solid border-2 px-2 py-2 hover:shadow-md transition-all duration-300 hover:border-black cursor-pointer" *ngFor="let tag of artwork.tags">
+            {{ tag }}
+          </span>
+        </div>
         </div>
       </div>
     </div>

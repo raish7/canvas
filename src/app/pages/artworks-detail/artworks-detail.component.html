@@ -1,0 +1,33 @@
+<div class="min-h-screen bg-white pt-28">
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="w-full col-span-12 md:col-span-8">
+        <div class="artwork-image flex justify-center">
+          <img [src]="image.image" alt="Artwork Image" />
+        </div>
+      </div>
+      <div class="w-full col-span-12 md:col-span-4">
+        <p class="text-2xl font-semibold mb-4">{{ image.title }}</p>
+        <p class="text-lg text-gray-600 mb-4">By {{ image.artist }}</p>
+        <p class="text-md text-gray-600 mb-4">{{ image.description }}</p>
+        <div class="pt-3 flex flex-wrap gap-2 mb-8">
+          <span
+            class="border-solid border-2 px-2 py-2 hover:shadow-md transition-all duration-300 hover:border-black cursor-pointer"
+            *ngFor="let tag of image.tags"
+          >
+            {{ tag }}
+          </span>
+        </div>
+        <p class="text-xl mb-8">Price: {{ image.price }}</p>
+        <button
+          class="mt-8 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full text-lg hover:shadow-xl transition-all duration-300 w-full"
+        >
+          Purchase
+        </button>
+        <button class="mt-4 border border-solid border-black bg-white hover:bg-gray-200 text-gray-800 px-8 py-3 rounded-full text-lg  hover:shadow-xl  hover:text-black transition-all duration-300 w-full">
+          Add to Wishlist
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

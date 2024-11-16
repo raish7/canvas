@@ -1,12 +1,13 @@
-<div class="min-h-screen bg-white pt-32">
+<div  class="min-h-screen bg-white pt-32">
   <main class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="grid gap-4" *ngFor="let column of getColumns()">
-        <div *ngFor="let image of column">
+        <div *ngFor="let image of column" class="relative">
           <img
-            class="h-auto max-w-full rounded-lg hover:scale-110 transition-all duration-300"
+            class="h-auto max-w-full rounded-lg hover:scale-110 transition-all duration-300 cursor-pointer"
             [src]="image.image"
             [alt]="image.alt"
+            (click)="navigateToArtworksDetail(image)"
           />
           <div class="mt-4 space-y-2">
             <div class="flex flex-wrap gap-2">

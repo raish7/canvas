@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Montserrat:wght@100&family=Roboto:wght@100;300&display=swap');
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+
+* {
+    font-family: 'Geist', sans-serif;
+}
+
+.primary {
+    color: #6B21A8;
+}
+
+.secondary {
+    color: #9333EA
+}
+.btn-color {
+    background-color: #9333EA!important;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

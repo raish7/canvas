@@ -1,0 +1,30 @@
+<div class="min-h-screen bg-white pt-32">
+  <main class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="grid gap-4" *ngFor="let column of getColumns()">
+        <div *ngFor="let image of column">
+          <img
+            class="h-auto max-w-full rounded-lg hover:scale-110 transition-all duration-300"
+            [src]="image.image"
+            [alt]="image.alt"
+          />
+          <div class="mt-4 space-y-2">
+            <div class="flex flex-wrap gap-2">
+              <div *ngFor="let tag of image.tags">
+                <span
+                  class="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold"
+                  >{{ tag }}
+                </span>
+              </div>
+            </div>
+            <h3 class="font-medium">{{ image.artist }}</h3>
+            <p class="text-sm text-gray-600">
+              {{ image.title }}, {{ image.year }}
+            </p>
+            <p class="font-medium">{{ image.price }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

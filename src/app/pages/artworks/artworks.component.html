@@ -1,31 +1,75 @@
-<div  class="min-h-screen bg-white pt-32">
+<div class="min-h-screen bg-white pt-32">
+  <div class="filters grid grid-cols-2 md:flex overflow-x-auto gap-2 px-4">
+    <select
+      id="default"
+      class="text-black bg-white border border-solid border-black hover:bg-black font-medium text-sm py-2.5 inline-flex items-center"
+    >
+      <option selected value="">Price</option>
+      <option value="desc">Highest</option>
+      <option value="asc">Lowest</option>
+    </select>
+
+    <select
+      id="default"
+      class="text-black bg-white border border-solid border-black hover:bg-black font-medium text-sm py-2.5 inline-flex items-center"
+    >
+      <option selected>Category</option>
+      <option value="US">Renaissance</option>
+      <option value="CA">Digital</option>
+      <option value="FR">Abstract</option>
+      <option value="DE">Impressionism</option>
+    </select>
+
+    <select
+      id="default"
+      class="text-black bg-white border border-solid border-black hover:bg-black font-medium text-sm py-2.5 inline-flex items-center"
+    >
+      <option selected>Artist</option>
+      <option value="US">Picasso</option>
+      <option value="CA">Matisse</option>
+      <option value="FR">Van Gogh</option>
+      <option value="DE">Monet</option>
+    </select>
+
+    <button
+      class="text-black text-sm font-medium px-2 py-2 hover:bg-gray-200 transition-all duration-300"
+    >
+      Clear All
+    </button>
+  </div>
   <main class="container mx-auto px-4 py-8">
+    <div *ngIf="fetchingData">
+      <app-card-skeleton></app-card-skeleton>
+    </div>
+
+    <div *ngIf="!fetchingData">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="grid gap-4" *ngFor="let column of getColumns()">
         <div *ngFor="let image of column" class="relative">
           <img
             class="h-auto max-w-full rounded-lg hover:scale-110 transition-all duration-300 cursor-pointer"
-            [src]="image.image"
-            [alt]="image.alt"
+            [src]="image.images[0].url"
+            [alt]="'Artwork'"
             (click)="navigateToArtworksDetail(image)"
           />
           <div class="mt-4 space-y-2">
             <div class="flex flex-wrap gap-2">
-              <div *ngFor="let tag of image.tags">
+              <div *ngFor="let item of image.category">
                 <span
                   class="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold"
-                  >{{ tag }}
+                  >{{ item.category.name }}
                 </span>
               </div>
             </div>
-            <h3 class="font-medium">{{ image.artist }}</h3>
+            <h3 class="font-medium">{{ image.artist.name }}</h3>
             <p class="text-sm text-gray-600">
-              {{ image.title }}, {{ image.year }}
+              {{ image.title }}
             </p>
-            <p class="font-medium">{{ image.price }}</p>
+            <p class="font-medium">Rs. {{ image.price }}</p>
           </div>
         </div>
       </div>
+    </div>
     </div>
   </main>
 </div>

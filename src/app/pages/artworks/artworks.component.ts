@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
+import { ArtworksService } from '../../services/artworks/artworks.service';
+import { CardSkeletonComponent } from "../../components/skeleton/card-skeleton/card-skeleton.component";
 interface Image {
   url: string;
   alt: string;
@@ -9,13 +11,17 @@ interface Image {
 @Component({
   selector: 'app-artworks',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgIf, CardSkeletonComponent],
   templateUrl: './artworks.component.html',
   styleUrl: './artworks.component.scss'
 })
 export class ArtworksComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private artworkService: ArtworksService) {}
   images: Image[] = [];
+  sortBy = 'Price'
+  hideSortDropdown = true;
+  artworksData: any[] = [];
+  fetchingData = false;
   artworks = [
     {
       id: 1,
@@ -169,19 +175,39 @@ export class ArtworksComponent {
 
   ]
 
+  ngOnInit() {
+    this.fetchingData = true;
+    this.artworkService.getArtWorks().subscribe({
+      next: (data: any) => {
+        console.log('data', data)
+        this.artworksData = data.data
+      },
+      error: (err) => {
+        console.log('err', err)
+      },
+      complete: () => {
+        this.fetchingData = false;
+      }
+    })
+  }
   getColumns() {
     const columns: any[][] = [];
     const columnCount = 4; // Adjust based on your grid layout
     for (let i = 0; i < columnCount; i++) {
       columns[i] = [];
     }
-    this.artworks.forEach((image, index) => {
+    this.artworksData.forEach((image, index) => {
       columns[index % columnCount].push(image);
     });
     return columns;
   }
 
   navigateToArtworksDetail(image: any) {
-    this.router.navigate(['artworks', 2]);
+    this.router.navigate(['artworks', image.id]);
+  }
+
+  sortByPrice(value: string) {
+    // this.hideSortDropdown = false;
+      this.sortBy = value;
   }
 }

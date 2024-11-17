@@ -5,6 +5,8 @@ import { HeaderComponent } from './components/landing/header/header.component';
 import { FeaturedArtworksComponent } from './components/landing/featured-artworks/featured-artworks.component';
 import { ChooseUsComponent } from './components/landing/choose-us/choose-us.component';
 import { FooterComponent } from './components/landing/footer/footer.component';
+import { initFlowbite } from 'flowbite';
+
 
 @Component({
   selector: 'app-root',
@@ -15,4 +17,7 @@ import { FooterComponent } from './components/landing/footer/footer.component';
 })
 export class AppComponent {
   title = 'digital-art';
+  ngOnInit() {
+    initFlowbite();
+  }
 }

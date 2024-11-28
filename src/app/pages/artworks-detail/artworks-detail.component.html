@@ -12,7 +12,7 @@
       </div>
       <div class="w-full col-span-12 md:col-span-4">
         <p class="text-2xl font-semibold mb-4">{{ artWork?.title }}</p>
-        <p class="text-lg text-gray-600 mb-4">By {{ artWork?.artist.name }}</p>
+        <p class="text-lg text-gray-600 mb-4">By <span class="curosr-pointer" (click)="navigateToArtist(artWork?.artist)"> {{ artWork?.artist.name }} </span></p>
         <p class="text-md text-gray-600 mb-4">{{ artWork?.description }}</p>
         <div class="pt-3 flex flex-wrap gap-2 mb-8">
           <span

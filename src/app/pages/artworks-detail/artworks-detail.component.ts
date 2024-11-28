@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ArtworksService } from '../../services/artworks/artworks.service';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { DetailPageSkeletonComponent } from "../../components/skeleton/detail-page-skeleton/detail-page-skeleton.component";
 
 @Component({
@@ -26,7 +26,7 @@ export class ArtworksDetailComponent {
   artWork: any;
   fetchingData = true;
 
-  constructor(private artworkService: ArtworksService, private route: ActivatedRoute) {}
+  constructor(private artworkService: ArtworksService, private route: ActivatedRoute, private router: Router) {}
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
       this.id = params['id']; // Access the 'id' parameter from the URL
@@ -48,5 +48,9 @@ export class ArtworksDetailComponent {
         this.fetchingData = false;
       }
     })
+  }
+
+  navigateToArtist(artist: any) {
+    // this.router.navigate([`/profile/${artist.id}`]);
   }
 }

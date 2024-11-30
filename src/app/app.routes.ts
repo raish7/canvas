@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { ArtworksComponent } from './pages/artworks/artworks.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ArtworksDetailComponent } from './pages/artworks-detail/artworks-detail.component';
+// import { ProfileComponent } from './pages/profile/profile.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,4 +16,12 @@ export const routes: Routes = [
     path: 'artworks/:id',  // This will handle the specific artwork detail page
     component: ArtworksDetailComponent,
   },
+  // {
+  //   path: 'profile/:id',
+  //   component: ProfileComponent
+  // },
+  {
+    path: 'checkout',
+    component: CheckoutComponent
+  }
 ];

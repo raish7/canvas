@@ -1,5 +1,17 @@
 <app-header></app-header>
 
+<ng-template [ngIf]="cartItems.length">
+  <div
+    #draggableBox
+    class="circle-count-holder"
+    cdkDragBoundary=".drag-boundary"
+    cdkDrag
+    (click)="routeToCheckout()"
+  >
+    <span class="circle-count">{{ cartItems.length }}</span>
+    <i class="bi bi-bag-check"></i>
+  </div>
+</ng-template>
 <router-outlet></router-outlet>
 
 <app-footer></app-footer>

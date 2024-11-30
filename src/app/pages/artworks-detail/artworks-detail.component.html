@@ -25,13 +25,17 @@
         <p class="text-xl mb-8">Price: Rs.{{ artWork?.price }}</p>
         <button
           class="mt-8 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full text-lg hover:shadow-xl transition-all duration-300 w-full"
+          (click)="purchaseItem(artWork)"
         >
           Purchase
         </button>
         <button
+          [ngClass]="{'added': isAdded}"  
           class="mt-4 border border-solid border-black bg-white hover:bg-gray-200 text-gray-800 px-8 py-3 rounded-full text-lg hover:shadow-xl hover:text-black transition-all duration-300 w-full"
-        >
-          Add to Wishlist
+          (click)="addToCart(artWork)"
+          >
+          <span *ngIf="!isAdded">Add to Cart</span>
+          <span *ngIf="isAdded">Added</span>
         </button>
       </div>
     </div>

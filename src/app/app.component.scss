@@ -37,3 +37,42 @@
   .pill-btn {
     border-radius: 25px;
   }
+
+
+  .circle-count-holder {
+    font-weight: bold;
+    position: fixed;
+    right: 0;
+    z-index: 9999;
+    bottom: 10%;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;;
+    border: 1px solid white;
+    text-align: center;
+    background: #4a8fd9;
+    border-color: #4a8fd9;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    .circle-count {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      color: white;
+      height: 30px;
+      width: 30px;
+      background: #f64859;
+      border-radius: 100%;
+      align-items: center;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      transition: z-index 0.3s ease;
+    }
+  }
+  .circle-count-holder.modal-open {
+    z-index: -1;
+  }

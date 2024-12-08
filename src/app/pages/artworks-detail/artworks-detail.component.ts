@@ -12,16 +12,6 @@ import { DetailPageSkeletonComponent } from "../../components/skeleton/detail-pa
   styleUrl: './artworks-detail.component.scss'
 })
 export class ArtworksDetailComponent {
-  image =  {
-    id: 3,
-    title: "Sculptural Piece",
-    artist: "Will Cotton",
-    year: 2023,
-    price: "US$18,000",
-    image: "https://i.pinimg.com/550x/07/31/39/073139a573876d25d8915dc9430432c6.jpg",
-    description: "This is a description of the sculpture. It is made of stone and is very unique and beautiful. It is made of stone and is very unique and beautiful. It is made of stone and is very unique and beautiful.",
-    tags: ["Unique", "Sculpture", "Oil Painting", "Abstract", "Renaissance"],
-  };
   id: any;
   artWork: any;
   fetchingData = true;
@@ -31,7 +21,6 @@ export class ArtworksDetailComponent {
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
       this.id = params['id']; // Access the 'id' parameter from the URL
-      console.log('Test ID:', this.id);
     });
     this.fetchingData = true;
     this.getArtWork();
@@ -39,7 +28,6 @@ export class ArtworksDetailComponent {
   getArtWork() {
     this.artworkService.getArtWorkById(this.id).subscribe({
       next: (data: any) => {
-        console.log('data', data)
         this.artWork = data.data;
       },
       error: (err) => {
@@ -52,20 +40,17 @@ export class ArtworksDetailComponent {
   }
 
   purchaseItem(data: any) {
-    this.artworkService.addCheckOutItems(data);
+    this.artworkService.addCheckOutItems({...data, quantity: 1});
     this.router.navigate(['/checkout'])
   }
 
   addToCart(data: any) {
-     // Add the item to the cart here
-    // Then update the state to show the "Added" state
     this.isAdded = true;
 
-    // Optional: Reset the button text after some time (e.g., 2 seconds)
     setTimeout(() => {
       this.isAdded = false;
     }, 5000);
-    this.artworkService.addCheckOutItems(data);
+    this.artworkService.addCheckOutItems({...data, quantity: 1});
   }
 
   navigateToArtist(artist: any) {

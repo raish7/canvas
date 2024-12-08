@@ -1,0 +1,90 @@
+<div
+  class="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 pt-32 pb-5"
+>
+  <div class="container mx-auto px-4">
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h1 class="text-3xl font-bold mb-4">
+        <i class="bi bi-bag-check"></i> Your Order History
+      </h1>
+      <span class="text-sm font-sm pt-2 text-gray-500">
+        View and manage your previous orders
+      </span>
+      <div class="mt-4 pb-4 h-[600px] overflow-auto">
+        <table class="table-auto w-full">
+          <thead>
+            <tr class="border-b bg-gray-50">
+              <th
+                class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
+              >
+                Order ID
+              </th>
+              <th
+                class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
+              >
+                Date
+              </th>
+              <th
+                class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
+              >
+                Items
+              </th>
+              <th
+                class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
+              >
+                Amount
+              </th>
+              <th
+                class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of purchases" class="border-b">
+              <td class="border-b p-4 pl-8 pt-3 pb-3 w-3">
+                {{ order.pidx }}
+              </td>
+              <td class="border-b p-4 pl-8 pt-3 pb-3">
+                {{ order.createdAt | date : "medium" }}
+              </td>
+              <td class="border-b p-4 pl-8 pt-3 pb-3">
+                <div
+                  class="flex gap-2 pb-2"
+                  *ngFor="let item of order.artworks"
+                >
+                  <img
+                    class="w-16 h-16 object-cover"
+                    [src]="item.artwork?.images[0]?.url"
+                    alt="Artwork Image"
+                  />
+                  <div>
+                    <p class="text-lg font-bold">
+                      {{ item.artwork?.title }}
+                    </p>
+                    <p class="text-sm text-gray-500">
+                      {{ item.artwork?.artist?.name || "N/A" }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="border-b p-4 pl-8 pt-3 pb-3">
+                Rs. {{ order.amount }}
+              </td>
+              <td class="border-b p-4 pl-8 pt-3 pb-3">
+                <span
+                  [ngClass]="{
+                    'text-green-500': order.paymentStatus === 'COMPLETED',
+                    'text-yellow-500': order.paymentStatus === 'PENDING',
+                    'text-red-500': order.paymentStatus === 'CANCELED'
+                  }"
+                  >{{ order.paymentStatus }}</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,10 +5,7 @@ import { ArtworksService } from '../../services/artworks/artworks.service';
 import { CardSkeletonComponent } from '../../components/skeleton/card-skeleton/card-skeleton.component';
 import { FormsModule } from '@angular/forms';
 import { UrlQueryService } from '../../utils/url-query.service';
-interface Image {
-  url: string;
-  alt: string;
-}
+import { toastMixin } from '../../utils/toastMixin';
 
 @Component({
   selector: 'app-artworks',
@@ -23,9 +20,9 @@ export class ArtworksComponent {
     private artworkService: ArtworksService,
     private urlQueryService: UrlQueryService
   ) {}
-  images: Image[] = [];
   artworksData: any[] = [];
   categories: any[] = [{ id: '', name: 'Category' }];
+  artists: any[] = [{ id: '', anme: 'Artist'}]
   fetchingData = false;
   query = {
     priceSortBy: '',
@@ -60,6 +57,7 @@ export class ArtworksComponent {
         },
         error: (err) => {
           console.log('err', err);
+          toastMixin('error', 'Failed to fetch artworks');
         },
         complete: () => {
           this.fetchingData = false;
@@ -76,6 +74,7 @@ export class ArtworksComponent {
       },
       error: (err) => {
         console.log('err', err);
+        toastMixin('error', 'Failed to fetch categories');
       },
       complete: () => {},
     });

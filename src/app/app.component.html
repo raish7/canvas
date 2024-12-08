@@ -1,17 +1,20 @@
 <app-header></app-header>
 
-<ng-template [ngIf]="cartItems.length">
-  <div
-    #draggableBox
-    class="circle-count-holder"
-    cdkDragBoundary=".drag-boundary"
-    cdkDrag
-    (click)="routeToCheckout()"
-  >
-    <span class="circle-count">{{ cartItems.length }}</span>
-    <i class="bi bi-bag-check"></i>
-  </div>
-</ng-template>
-<router-outlet></router-outlet>
+<div class="drag-boundary">
+  <ng-template [ngIf]="cartItems.length">
+    <div
+      #draggableBox
+      class="circle-count-holder bg-gradient-to-r duration-300 from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+      cdkDragBoundary=".drag-boundary"
+      cdkDrag
+      cdkDragBoundary=".drag-boundary"
+      (click)="routeToCheckout()"
+    >
+      <span class="circle-count">{{ cartItems.length }}</span>
+      <i class="bi bi-bag-check"></i>
+    </div>
+  </ng-template>
+  <router-outlet></router-outlet>
+</div>
 
 <app-footer></app-footer>

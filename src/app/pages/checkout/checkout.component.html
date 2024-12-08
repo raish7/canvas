@@ -3,7 +3,7 @@
 >
   <div class="container mx-auto px-4">
     <Button variant="ghost" class="mb-8"> </Button>
-    Back to Cart
+    <i class="bi bi-arrow-left cursor-pointer" (click)="goBack()"></i> Back
     <div class="grid gap-8 md:grid-cols-2">
       <div class="bg-white p-8 h-[400px] overflow-auto mb-4">
         <p class="text-3xl font-bold">Checkout</p>
@@ -14,22 +14,47 @@
           <p class="text-xl font-bold">Payment Method</p>
           <div class="flex flex-col">
             <div>
-              <input type="radio" id="khalti" name="paymentMethod" [(ngModel)]="selectedPaymentMethod" [value]="'khalti'"/>
+              <input
+                type="radio"
+                id="khalti"
+                name="paymentMethod"
+                [(ngModel)]="selectedPaymentMethod"
+                [value]="'khalti'"
+              />
               <span class="ml-3">Khalti</span>
             </div>
             <div>
-              <input type="radio" id="esewa" name="paymentMethod" [(ngModel)]="selectedPaymentMethod" [value]="'esewa'"/>
+              <input
+                type="radio"
+                id="esewa"
+                name="paymentMethod"
+                [(ngModel)]="selectedPaymentMethod"
+                [value]="'esewa'"
+              />
               <span class="ml-3">Esewa</span>
             </div>
             <div>
-              <input type="radio" id="ips" name="paymentMethod" [(ngModel)]="selectedPaymentMethod" [value]="'ips'"/>
-              <span class="ml-3">IPS</span>
+              <input
+                type="radio"
+                id="cashOnDelivery"
+                name="cashOnDelivery"
+                [(ngModel)]="selectedPaymentMethod"
+                [value]="'cashOnDelivery'"
+              />
+              <span class="ml-3">Cash on Delivery</span>
             </div>
           </div>
-          
+
           <div>
             <button
-              class="mt-8 rounded-md bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 text-lg hover:shadow-xl transition-all duration-300 w-full"
+              (click)="purchase()"
+              [ngClass]="{ disabled: checkoutItems().length === 0 }"
+              [disabled]="
+                checkoutItems().length === 0 ||
+                submitting ||
+                selectedPaymentMethod === null
+              "
+              class="mt-8 disabled:opacity-50 rounded-md bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 text-lg hover:shadow-xl transition-all duration-300 w-full"
             >
               Purchase
             </button>
@@ -42,24 +67,34 @@
           >Review your items</span
         >
         <div class="pt-10 h-[208px] overflow-auto mb-4">
-            <div *ngFor="let item of checkoutItems" >
-                <div class="flex justify-between mb-3">
-                    <div class="flex">
-                        <img class="w-16 h-16 object-cover" [src]="item.images[0]?.url" alt="Artwork Image" />
-                        <div class="ml-4">
-                            <p class="text-lg font-bold">{{ item?.title }}</p>
-                            <p class="text-sm text-gray-500">{{ item?.artist?.name }}</p>
-                        </div>
-                    </div>
-                    <p class="text-lg font-bold">Rs. {{ item?.price }}</p>
+          <div *ngFor="let item of checkoutItems()">
+            <div class="flex justify-between mb-3">
+              <div class="flex">
+                <img
+                  class="w-16 h-16 object-cover"
+                  [src]="item.images[0]?.url"
+                  alt="Artwork Image"
+                />
+                <div class="ml-4">
+                  <p class="text-lg font-bold">{{ item?.title }} ({{item.quantity}}Qty.)</p>
+                  <p class="text-sm text-gray-500">{{ item?.artist?.name }}</p>
                 </div>
+              </div>
+              <p class="text-lg font-bold">
+                Rs. {{ item?.price }}
+                <i
+                  class="bi bi-x-circle text-red-500 ml-2 cursor-pointer"
+                  (click)="removeFromCart(item)"
+                ></i>
+              </p>
             </div>
+          </div>
         </div>
         <div class="pt-8 border-t border-gray-200">
-            <div class="flex justify-between">
-                <p class="text-lg font-bold">Grand Total</p>
-                <p class="text-lg font-bold">Rs. {{ grandTotal  }}</p>
-            </div>
+          <div class="flex justify-between">
+            <p class="text-lg font-bold">Grand Total</p>
+            <p class="text-lg font-bold">Rs. {{ grandTotal() }}</p>
+          </div>
         </div>
       </div>
     </div>

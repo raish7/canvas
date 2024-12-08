@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ArtworksDetailComponent } from './pages/artworks-detail/artworks-detail.component';
 // import { ProfileComponent } from './pages/profile/profile.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,5 +24,9 @@ export const routes: Routes = [
   {
     path: 'checkout',
     component: CheckoutComponent
+  },
+  {
+    path: 'orders',
+    component: OrdersComponent
   }
 ];

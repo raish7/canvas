@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { Router } from '@angular/router';
 import { toastMixin } from '../../utils/toastMixin';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -21,7 +22,7 @@ export class CheckoutComponent {
   submitting = false;
   subscriptions: Subscription[] = [];
   purchasePayload = {
-    buyer: 2,
+    buyer: null,
     artworks: [],
     amount: 0,
     status: 'PENDING',
@@ -37,7 +38,7 @@ export class CheckoutComponent {
   grandTotal = computed(() => {
     return this.checkoutItems().reduce(
       (acc: any, item: { price: number; quantity: number }) =>
-        acc + (item.price * (item.quantity ?? 1)),
+        acc + item.price * (item.quantity ?? 1),
       0
     );
   });
@@ -45,7 +46,8 @@ export class CheckoutComponent {
   constructor(
     private artworkService: ArtworksService,
     private paymentService: PaymentService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -63,6 +65,7 @@ export class CheckoutComponent {
         this.paymentService
           .createPurchase({
             ...this.purchasePayload,
+            buyer: this.authService.getCurrentUser().id,
             pidx: `cod_${uuidv4()}`,
             amount: this.grandTotal(),
             artworks: this.checkoutItems().map((artwork: any) => artwork.id),
@@ -91,6 +94,7 @@ export class CheckoutComponent {
               this.paymentService
                 .createPurchase({
                   ...this.purchasePayload,
+                  buyer: this.authService.getCurrentUser().id,
                   pidx: pidx,
                   amount: this.grandTotal(),
                   artworks: this.checkoutItems().map(

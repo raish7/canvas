@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ArtworksService } from '../../services/artworks/artworks.service';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { DetailPageSkeletonComponent } from "../../components/skeleton/detail-page-skeleton/detail-page-skeleton.component";
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-artworks-detail',
@@ -17,7 +18,7 @@ export class ArtworksDetailComponent {
   fetchingData = true;
   isAdded = false;
 
-  constructor(private artworkService: ArtworksService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private artworkService: ArtworksService, private route: ActivatedRoute, private router: Router, private authService: AuthService) {}
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
       this.id = params['id']; // Access the 'id' parameter from the URL
@@ -40,11 +41,19 @@ export class ArtworksDetailComponent {
   }
 
   purchaseItem(data: any) {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login'], { queryParams: { routeBack: `/artworks/${this.id}` } });
+      return;
+    }
     this.artworkService.addCheckOutItems({...data, quantity: 1});
     this.router.navigate(['/checkout'])
   }
 
   addToCart(data: any) {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login'], { queryParams: { routeBack: `/artworks/${this.id}` } });
+      return;
+    }
     this.isAdded = true;
 
     setTimeout(() => {

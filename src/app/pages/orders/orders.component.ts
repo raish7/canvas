@@ -4,6 +4,7 @@ import { PaymentService } from '../../services/payment/payment.service';
 import { CommonModule, NgClass, NgFor } from '@angular/common';
 import { switchMap, catchError, of } from 'rxjs';
 import { toastMixin } from '../../utils/toastMixin';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-orders',
@@ -16,7 +17,8 @@ export class OrdersComponent {
   purchases: any[] = [];
   constructor(
     private route: ActivatedRoute,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -24,27 +26,6 @@ export class OrdersComponent {
       if (Object.keys(params).length === 0) {
         this.getPurchases();
       } else if (params.pidx) {
-        // this.paymentService.lookupTransaction({pidx: params.pidx}).subscribe({
-        //   next: (response: any) => {
-        //     const { total_amount, status, pidx } = response.data;
-        //     const payload = {
-        //       amount: total_amount / 100,
-        //       paymentStatus: status.toUpperCase()
-        //     };
-        //     this.paymentService.updateStatus(pidx, payload).subscribe({
-        //       next: (response: any) => {
-        //         console.log('update success', response)
-        //         this.getPurhases();
-        //       },
-        //       error: (err: any) => {
-        //         console.log('Failed to update status', err);
-        //       }
-        //     })
-        //   },
-        //   error: (err: any) => {
-        //     console.log('error', err);
-        //   }
-        // })
         this.paymentService
           .lookupTransaction({ pidx: params.pidx })
           .pipe(
@@ -79,7 +60,8 @@ export class OrdersComponent {
   }
 
   getPurchases() {
-    this.paymentService.getPurchase(2).subscribe({
+    const user = this.authService.getCurrentUser();
+    this.paymentService.getPurchase(user.id).subscribe({
       next: (response: any) => {
         this.purchases = response.data.filter((purchase: any) => purchase.artworks.length > 0);
       },

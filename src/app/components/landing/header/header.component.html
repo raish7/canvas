@@ -57,6 +57,20 @@
         class="block text-purple-800 hover:text-purple-600 transition-colors py-2 px-4 md:py-0"
         >About</a
       >
+      <a
+        *ngIf="isAuthenticated else login"
+        class="block text-purple-800 hover:text-purple-600 transition-colors py-2 px-4 md:py-0"
+        (click)="logout()"
+        >
+        Log Out&nbsp;<i class="bi bi-box-arrow-right"></i></a
+      >
+      <ng-template #login>
+        <a
+          (click)="routeToLogin()"
+          class="block text-purple-800 hover:text-purple-600 transition-colors py-2 px-4 md:py-0"
+          >Log In&nbsp;<i class="bi bi-box-arrow-in-left"></i></a
+        >
+      </ng-template>
     </nav>
   </div>
 </header>

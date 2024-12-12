@@ -52,10 +52,13 @@ export class LoginComponent {
           'user',
           JSON.stringify({ id, names, roles, username })
         );
+        this.authService.isAuthenticated.next(true);
         if (this.routeBack) {
-          this.router.navigate([this.routeBack]);
+          // this.router.navigate([this.routeBack]);
+          window.location.href = this.routeBack;
         } else {
-          this.router.navigate(['/home']);
+          // this.router.navigate(['/home']);
+          window.location.href = '/';
         }
       },
       error: (err) => {

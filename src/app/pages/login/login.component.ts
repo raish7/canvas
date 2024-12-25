@@ -8,6 +8,7 @@ import {
 import { AuthService } from '../../services/auth/auth.service';
 import { toastMixin } from '../../utils/toastMixin';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -44,27 +45,32 @@ export class LoginComponent {
 
   login() {
     this.isSubmitting = true;
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (res: any) => {
-        const { id, names, roles, username, access_token } = res.data;
-        localStorage.setItem('token', access_token);
-        localStorage.setItem(
-          'user',
-          JSON.stringify({ id, names, roles, username })
-        );
-        this.authService.isAuthenticated.next(true);
+    this.authService
+      .login(this.loginForm.value)
+      .pipe(
+        switchMap((response: any) => {
+          const { id, names, roles, username, access_token } = response.data;
+          localStorage.setItem('token', access_token);
+          localStorage.setItem(
+            'user',
+            JSON.stringify({ id, names, roles, username })
+          );
+          this.authService.isAuthenticated.next(true);
+          return this.authService.getUserProfile(id);
+        }),
+        catchError((err: any) => {
+          toastMixin('error', err?.error?.message || 'Failed to login');
+          this.isSubmitting = false;
+          return of(null);
+        })
+      )
+      .subscribe((res: any) => {
+        localStorage.setItem('currProfile', JSON.stringify(res.data));
         if (this.routeBack) {
-          // this.router.navigate([this.routeBack]);
           window.location.href = this.routeBack;
         } else {
-          // this.router.navigate(['/home']);
           window.location.href = '/';
         }
-      },
-      error: (err) => {
-        toastMixin('error', err?.error?.message || 'Failed to login');
-        this.isSubmitting = false;
-      },
-    });
+      });
   }
 }

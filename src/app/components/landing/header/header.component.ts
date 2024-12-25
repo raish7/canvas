@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
 import { NgIf } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -18,6 +18,7 @@ export class HeaderComponent {
   subscriptions: Subscription[] = [];
   // @HostListener('window:scroll', [])
   menuOpen = false;
+  currProfile: any;
   // onWindowScroll() {
   //   // Check if the page is scrolled down by a certain amount (e.g., 50px)
   //   this.isScrolled = window.scrollY > 50;
@@ -26,6 +27,7 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.isAuthenticated = this.authService.isLoggedIn();
+    this.currProfile = JSON.parse(localStorage.getItem("currProfile") || '{}');
   }
   
   toggleMenu() {

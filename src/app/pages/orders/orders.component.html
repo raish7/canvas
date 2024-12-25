@@ -29,6 +29,12 @@
                 Items
               </th>
               <th
+              *ngIf="isUserArtist"
+                class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
+              >
+                Buyer
+              </th>
+              <th
                 class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
               >
                 Amount
@@ -40,7 +46,7 @@
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="purchases.length; else noOrders">
             <tr *ngFor="let order of purchases" class="border-b">
               <td class="border-b p-4 pl-8 pt-3 pb-3 w-3">
                 {{ order.pidx }}
@@ -68,6 +74,9 @@
                   </div>
                 </div>
               </td>
+              <td *ngIf="isUserArtist" class="border-b p-4 pl-8 pt-3 pb-3">
+                {{ order.buyer?.name || "N/A" }}
+              </td>
               <td class="border-b p-4 pl-8 pt-3 pb-3">
                 Rs. {{ order.amount }}
               </td>
@@ -83,6 +92,13 @@
               </td>
             </tr>
           </tbody>
+          <ng-template #noOrders>
+            <tr>
+              <td class="border-b p-4 pl-8 pt-3 pb-3" colspan="5">
+                No orders found
+              </td>
+            </tr>
+          </ng-template>
         </table>
       </div>
     </div>

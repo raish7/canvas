@@ -15,11 +15,16 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class OrdersComponent {
   purchases: any[] = [];
+  isUserArtist = false;
   constructor(
     private route: ActivatedRoute,
     private paymentService: PaymentService,
     private authService: AuthService
-  ) {}
+  ) {
+    this.isUserArtist = JSON.parse(
+      localStorage.getItem('user') as any
+    )?.roles.includes('ARTIST');
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params: any) => {
@@ -47,8 +52,8 @@ export class OrdersComponent {
           .subscribe({
             next: (response: any) => {
               if (response) {
-                this.getPurchases(); 
-                toastMixin("success", "Purchase placed successfully");
+                this.getPurchases();
+                toastMixin('success', 'Purchase placed successfully');
               }
             },
             error: (err: any) => {
@@ -63,11 +68,13 @@ export class OrdersComponent {
     const user = this.authService.getCurrentUser();
     this.paymentService.getPurchase(user.id).subscribe({
       next: (response: any) => {
-        this.purchases = response.data.filter((purchase: any) => purchase.artworks.length > 0);
+        this.purchases = response.data.filter(
+          (purchase: any) => purchase.artworks.length > 0
+        );
       },
       error: (err: any) => {
         console.log('err', err);
-        toastMixin("error", "Failed to get purchases")
+        toastMixin('error', 'Failed to get purchases');
       },
     });
   }

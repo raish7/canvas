@@ -24,6 +24,13 @@ export class PaymentService {
     );
   }
   getPurchase(id: any) {
+    if (JSON.parse(localStorage.getItem('user') as any)?.roles.includes('ARTIST')) {
+      return this.http.get(`${environment.apiUrl}/purchase/artist/${id}`);
+    }
     return this.http.get(`${environment.apiUrl}/purchase/customer/${id}`);
+  }
+
+  esewaPayment(data: any) {
+    return this.http.post(`${environment.apiUrl}/payment/esewa`, data);
   }
 }

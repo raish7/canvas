@@ -28,4 +28,8 @@ export class AuthService {
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user") || '{}');
   }
+
+  getUserProfile(id: number) {
+    return this.http.get(`${environment.apiUrl}/profile/user/${id}`);
+  }
 }

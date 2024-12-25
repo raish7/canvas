@@ -18,6 +18,14 @@ export class ArtworksService {
     }
   }
 
+  createArtwork(data: any) {
+    return this.http.post(`${environment.apiUrl}/artwork`, data);
+  }
+
+  uploadImages(data: any) {
+    return this.http.post(`${environment.apiUrl}/images/upload`, data)
+  }
+
   getArtWorkById(id: number) {
     return this.http.get(`${environment.apiUrl}/artwork/${id}`);
   }

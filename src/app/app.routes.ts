@@ -7,6 +7,7 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './guard/auth.guard';
+import { ArtworkFormComponent } from './pages/artwork-form/artwork-form.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -36,5 +37,9 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'add/artwork',
+    component: ArtworkFormComponent
   }
 ];

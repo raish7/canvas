@@ -12,7 +12,15 @@
       </div>
       <div class="w-full col-span-12 md:col-span-4">
         <p class="text-2xl font-semibold mb-4">{{ artWork?.title }}</p>
-        <p class="text-lg text-gray-600 mb-4">By <span class="curosr-pointer" (click)="navigateToArtist(artWork?.artist)"> {{ artWork?.artist.name }} </span></p>
+        <p class="text-lg text-gray-600 mb-4">
+          By
+          <span
+            class="curosr-pointer"
+            (click)="navigateToArtist(artWork?.artist)"
+          >
+            {{ artWork?.artist.name }}
+          </span>
+        </p>
         <p class="text-md text-gray-600 mb-4">{{ artWork?.description }}</p>
         <p>
           <i class="bi bi-eye"></i>&nbsp;Views&nbsp;
@@ -34,13 +42,54 @@
           Purchase
         </button>
         <button
-          [ngClass]="{'added': isAdded}"  
+          [ngClass]="{ added: isAdded }"
           class="mt-4 border border-solid border-black bg-white hover:bg-gray-200 text-gray-800 px-8 py-3 rounded-full text-lg hover:shadow-xl hover:text-black transition-all duration-300 w-full"
           (click)="addToCart(artWork)"
-          >
+        >
           <span *ngIf="!isAdded">Add to Cart</span>
           <span *ngIf="isAdded">Added</span>
         </button>
+      </div>
+
+      <div class="w-full col-span-12">
+        <div class="flex justify-between items-center">
+          <span class="text-xl font-semibold mt-12 mb-4">
+            <i class="bi bi-chat-left"></i> Comments
+          </span>
+          <button
+            (click)="addComment()"
+            class="mt-8 border-solid border-2 px-2 py-2 hover:shadow-md transition-all duration-300 hover:border-black cursor-pointer"
+          >
+            <i class="bi bi-plus"></i> Add Comment
+          </button>
+        </div>
+        <div *ngIf="comments.length; else noComments" class="h-[600px] overflow-y-auto">
+          <div
+            class="border-solid border-1 border-gray-300 p-3 rounded-lg mt-3"
+            *ngFor="let item of comments"
+          >
+            <div class="flex items-center gap-2">
+              <span
+                class="rounded-full w-10 h-10 bg-gray-300 p-2 flex justify-center items-center ml-2"
+                >{{ item.author.name[0] }}</span
+              >
+              <div>
+                <span class="text-sm font-semibold">{{
+                  item.author.name
+                }}</span>
+                <p class="text-sm font-semibold">
+                  {{ item.createdAt | date : "medium" }}
+                </p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2 ml-14">
+              {{ item.content }}
+            </p>
+          </div>
+        </div>
+        <ng-template #noComments>
+          <p class="text-md text-gray-600 mb-4">No comments yet</p>
+        </ng-template>
       </div>
     </div>
   </div>

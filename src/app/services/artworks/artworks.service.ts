@@ -64,4 +64,8 @@ export class ArtworksService {
       this.checkoutItems.next(updateValue);
     }
   }
+
+  addComment(data: any) {
+    return this.http.post(`${environment.apiUrl}/comments`, data);
+  }
 }

@@ -1,12 +1,13 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArtworksService } from './../../services/artworks/artworks.service';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
+import { CardSkeletonComponent } from '../../components/skeleton/card-skeleton/card-skeleton.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, CardSkeletonComponent, NgIf],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -16,9 +17,9 @@ export class ProfileComponent {
   artWork: any;
   userProfile: any;
   featuredArtWorks = [];
+  fetchingData = false;
 
-
-  constructor(private artworkService: ArtworksService, private route: ActivatedRoute) {}
+  constructor(private artworkService: ArtworksService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
@@ -43,6 +44,7 @@ export class ProfileComponent {
   }
 
   getArtWork() {
+    this.fetchingData = true;
     this.artworkService.getArtWorkByArtistId(this.id).subscribe({
       next: (data: any) => {
         console.log('data', data)
@@ -53,9 +55,13 @@ export class ProfileComponent {
         console.log('err', err)
       },
       complete: () => {
-        // this.fetchingData = false;
+        this.fetchingData = false;
       }
     })
+  }
+
+  navigateToArtworksDetail(data: any) {
+    this.router.navigate(['artworks', data.id]);
   }
 
 }

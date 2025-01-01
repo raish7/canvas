@@ -86,7 +86,7 @@
                   </span>
                 </div>
               </div>
-              <h3 class="font-medium">{{ image.artist.name }}</h3>
+              <h3 class=" font-bold cursor-pointer" (click)="navigateToArtist(image.artist)">{{ image.artist.name }}</h3>
               <p class="text-sm text-gray-600">
                 {{ image.title }}
               </p>

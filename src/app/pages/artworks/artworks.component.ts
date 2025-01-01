@@ -93,6 +93,11 @@ export class ArtworksComponent {
     this.router.navigate(['artworks', image.id]);
   }
 
+  navigateToArtist(artist: any) {
+    this.router.navigate([`/profile/${artist.id}`]);
+  }
+
+
   sortArtworks(value: any, sortBy: 'priceSortBy' | 'category') {
     this.query[sortBy] = value.value;
     this.getArtWorks();

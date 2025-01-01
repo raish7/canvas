@@ -84,7 +84,7 @@ export class ArtworksDetailComponent {
   }
 
   navigateToArtist(artist: any) {
-    // this.router.navigate([`/profile/${artist.id}`]);
+    this.router.navigate([`/profile/${artist.id}`]);
   }
 
   addComment() {

@@ -1,0 +1,47 @@
+<ng-container>
+  <div class="w-full col-span-12 md:col-span-8">
+    <div class="artwork-image flex justify-center">
+      <img [src]="artWork?.images[0]?.url" alt="Artwork Image" />
+    </div>
+  </div>
+  <div class="w-full col-span-12 md:col-span-4">
+    <p class="text-2xl font-semibold mb-4">{{ artWork?.title }}</p>
+    <p class="text-lg text-gray-600 mb-4">
+      By
+      <span
+        class="cursor-pointer text-blue-500"
+        (click)="navigateToArtist(artWork?.artist)"
+      >
+        {{ artWork?.artist.name }}
+      </span>
+    </p>
+    <p class="text-md text-gray-600 mb-4">{{ artWork?.description }}</p>
+    <p>
+      <i class="bi bi-eye"></i>&nbsp;Views&nbsp;
+      {{ artWork?.views }}
+    </p>
+    <div class="pt-3 flex flex-wrap gap-2 mb-8">
+      <span
+        class="border-solid border-2 px-2 py-2 hover:shadow-md transition-all duration-300 hover:border-black cursor-pointer"
+        *ngFor="let cat of artWork?.category"
+      >
+        {{ cat.category.name }}
+      </span>
+    </div>
+    <p class="text-xl mb-8">Price: Rs.{{ artWork?.price }}</p>
+    <button
+      class="mt-8 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full text-lg hover:shadow-xl transition-all duration-300 w-full"
+      (click)="purchaseItem(artWork)"
+    >
+      Purchase
+    </button>
+    <button
+      [ngClass]="{ added: isAdded }"
+      class="mt-4 border border-solid border-black bg-white hover:bg-gray-200 text-gray-800 px-8 py-3 rounded-full text-lg hover:shadow-xl hover:text-black transition-all duration-300 w-full"
+      (click)="addToCart(artWork)"
+    >
+      <span *ngIf="!isAdded">Add to Cart</span>
+      <span *ngIf="isAdded">Added</span>
+    </button>
+  </div>
+</ng-container>

@@ -10,11 +10,20 @@ import { DetailPageSkeletonComponent } from '../../components/skeleton/detail-pa
 import { AuthService } from '../../services/auth/auth.service';
 import { toastMixin } from '../../utils/toastMixin';
 import Swal from 'sweetalert2';
+import { CommentsComponent } from '../../components/artwork-detail/comments/comments.component';
+import { ArtworkComponent } from '../../components/artwork-detail/artwork/artwork.component';
 
 @Component({
   selector: 'app-artworks-detail',
   standalone: true,
-  imports: [NgFor, NgIf, DetailPageSkeletonComponent, CommonModule],
+  imports: [
+    NgFor,
+    NgIf,
+    DetailPageSkeletonComponent,
+    CommonModule,
+    CommentsComponent,
+    ArtworkComponent,
+  ],
   templateUrl: './artworks-detail.component.html',
   styleUrl: './artworks-detail.component.scss',
 })
@@ -57,36 +66,6 @@ export class ArtworksDetailComponent {
     });
   }
 
-  purchaseItem(data: any) {
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/login'], {
-        queryParams: { routeBack: `/artworks/${this.id}` },
-      });
-      return;
-    }
-    this.artworkService.addCheckOutItems({ ...data, quantity: 1 });
-    this.router.navigate(['/checkout']);
-  }
-
-  addToCart(data: any) {
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/login'], {
-        queryParams: { routeBack: `/artworks/${this.id}` },
-      });
-      return;
-    }
-    this.isAdded = true;
-
-    setTimeout(() => {
-      this.isAdded = false;
-    }, 5000);
-    this.artworkService.addCheckOutItems({ ...data, quantity: 1 });
-  }
-
-  navigateToArtist(artist: any) {
-    this.router.navigate([`/profile/${artist.id}`]);
-  }
-
   addComment() {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login'], {
@@ -95,47 +74,50 @@ export class ArtworksDetailComponent {
       return;
     }
     Swal.fire({
-      input: "textarea",
-      inputLabel: "Add a comment",
-      // inputPlaceholder: `Add a comment...`,
+      input: 'textarea',
+      inputLabel: 'Add a comment',
       inputAttributes: {
-        "aria-label": "Type your message here"
+        'aria-label': 'Type your message here',
       },
       inputValidator: (value) => {
         if (!value) {
-          return "Please enter your message";
+          return 'Please enter your message';
         }
         return null;
       },
-      confirmButtonText: "Post",
-      cancelButtonText: "Cancel",
-      showCancelButton: true
-    }).then(res => {
+      confirmButtonText: 'Post',
+      cancelButtonText: 'Cancel',
+      showCancelButton: true,
+    }).then((res) => {
       if (res.isConfirmed) {
-        this.artworkService.addComment({
-          content: res.value,
-          artwork: this.id,
-          author: JSON.parse(localStorage.getItem('user') as any).id
-        }).subscribe({
-          next: (res: any) => {
-            if (res.success) {
-              this.comments.push({
-                author: {
-                  name: JSON.parse(localStorage.getItem('currProfile') as any).user.name,
-                  id: JSON.parse(localStorage.getItem('currProfile') as any).user.id
-                },
-                ...res.data
-              });
-              this.comments = [...this.comments];
-              toastMixin("success", "Comment posted successfully");
-            }
-          },
-          error: (err: any) => {
-            console.error('err', err)
-            toastMixin("error", "Failed to post comment");
-          }
-        })   
+        this.artworkService
+          .addComment({
+            content: res.value,
+            artwork: this.id,
+            author: JSON.parse(localStorage.getItem('user') as any).id,
+          })
+          .subscribe({
+            next: (res: any) => {
+              if (res.success) {
+                this.comments.push({
+                  author: {
+                    name: JSON.parse(localStorage.getItem('currProfile') as any)
+                      .user.name,
+                    id: JSON.parse(localStorage.getItem('currProfile') as any)
+                      .user.id,
+                  },
+                  ...res.data,
+                });
+                this.comments = [...this.comments];
+                toastMixin('success', 'Comment posted successfully');
+              }
+            },
+            error: (err: any) => {
+              console.error('err', err);
+              toastMixin('error', 'Failed to post comment');
+            },
+          });
       }
-    })
+    });
   }
 }

@@ -68,4 +68,8 @@ export class ArtworksService {
   addComment(data: any) {
     return this.http.post(`${environment.apiUrl}/comments`, data);
   }
+
+  replyComment(data: any) {
+    return this.http.post(`${environment.apiUrl}/comments/reply`, data);
+  }
 }

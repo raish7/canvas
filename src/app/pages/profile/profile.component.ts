@@ -24,7 +24,6 @@ export class ProfileComponent {
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
       this.id = params['id']; // Access the 'id' parameter from the URL
-      console.log('Test ID:', this.id);
     });
     this.getArtWork();
     this.getProfile();
@@ -33,9 +32,7 @@ export class ProfileComponent {
   getProfile() {
     this.artworkService.getProfile(this.id).subscribe({
       next: (data: any) => {
-        console.log('profile', data)
         this.userProfile = data.data;
-        console.log('profile data', this.userProfile)
       },
       error: (err) => {
         console.log('err', err)
@@ -47,9 +44,7 @@ export class ProfileComponent {
     this.fetchingData = true;
     this.artworkService.getArtWorkByArtistId(this.id).subscribe({
       next: (data: any) => {
-        console.log('data', data)
         this.artWork = data.data;
-        console.log('artwork data', this.artWork)
       },
       error: (err) => {
         console.log('err', err)

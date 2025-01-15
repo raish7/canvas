@@ -52,12 +52,10 @@ export class ArtworkFormComponent {
   }
 
   onSelect(event: { addedFiles: any }) {
-    console.log(event);
     this.files.push(...event.addedFiles);
   }
 
   onRemove(event: any) {
-    console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
 

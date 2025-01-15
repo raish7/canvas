@@ -19,7 +19,6 @@ export class CommentsComponent {
   constructor(private authService: AuthService, private artworkService: ArtworksService) {}
 
   reply() {
-    console.log('this comment', this.comment, this.artworkId)
     // if (!this.authService.isLoggedIn()) {
     //   this.router.navigate(['/login'], {
     //     queryParams: { routeBack: `/artworks/${this.id}` },

@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { LlamaService } from '../../services/llama/llama.service';
 
 @Component({
   selector: 'app-artwork-form',
@@ -33,7 +34,8 @@ export class ArtworkFormComponent {
   constructor(
     private artworkService: ArtworksService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private llamaService: LlamaService
   ) {
     this.artistId = (localStorage.getItem('user') as any)!.id;
   }
@@ -67,7 +69,6 @@ export class ArtworkFormComponent {
         });
       },
       error: (err) => {
-        console.log('err', err);
         toastMixin('error', 'Failed to fetch categories');
       },
       complete: () => {},
@@ -84,44 +85,35 @@ export class ArtworkFormComponent {
     this.artworkForm.get('category')?.patchValue([...this.categoryIds]);
   }
 
-  // async uploadImage() {
-  //   console.log('files', this.files);
-  //   // if (this.files.length > 0) {
-  //   //   this.files.forEach((file) => {
-  //   //     const formData = new FormData();
-  //   //     formData.append('file[]', file);
-  //   //     this.artworkService.uploadImages
-  //   //     this.artworkService.uploadImages(formData).subscribe({
-  //   //       next: (res: any) => {
-  //   //         console.log('res>>>>', res);
-  //   //         this.newImageIds.push(res.data.id);
-  //   //       },
-  //   //       error: (err) => {
-  //   //         console.log('err', err);
-  //   //         toastMixin('error', 'Failed to upload image');
-  //   //       },
-  //   //     });
-  //   //   });
-  //   // }
+  async generateDescription() {
+    if (!this.artworkForm?.get('title')?.value) {
+      toastMixin(
+        'warning',
+        'Please provide a title so that a suitable description can be generated'
+      );
+      return;
+    }
 
-  //   try {
-  //     const uploadPromises = this.files.map(async (file) => {
-  //       const formData = new FormData();
-  //       formData.append('file[]', file);
-  //       const response = await lastValueFrom(
-  //         this.artworkService.uploadImages(formData)
-  //       );
-  //       console.log('response', response);
-  //       return response;
-  //     });
-  //     const response = await Promise.all([uploadPromises]);
-  //     return response;
-  //   } catch (err) {
-  //     console.error('Error during uploads:', err);
-  //     toastMixin('error', 'Failed to upload one or more images');
-  //     return err;
-  //   }
-  // }
+    let prompt = `Generate an engaing description for an artwork based on the title of the artwork. The description should be less than or equal to 50 words. The title is "${this.artworkForm.value.title}"`;
+    if (this.artworkForm.get('category')?.value) {
+      const selectedCat: any = [];
+      this.artworkForm.get('category')?.value.forEach((category: any) => {
+        selectedCat.push(
+          this.categories.find((cat: any) => cat.id === category).name
+        );
+      });
+      prompt += `Categories for this artwork are ${selectedCat.join(', ')}`;
+    }
+    this.llamaService.generateDescription({ prompt: prompt }).subscribe({
+      next: (response: any) => {
+        this.artworkForm.get('description')?.setValue(response.data);
+        this.artworkForm.updateValueAndValidity();
+      },
+      error: (err) => {
+        toastMixin('error', 'Failed to generate description');
+      },
+    });
+  }
 
   async submit() {
     if (this.files.length > 0 && this.artworkForm.valid) {

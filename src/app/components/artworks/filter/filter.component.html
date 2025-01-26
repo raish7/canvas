@@ -1,0 +1,66 @@
+<div
+  class="filters grid grid-cols-2 md:flex md:justify-between overflow-x-auto gap-2 px-4"
+>
+  <div class="flex gap-4">
+    <select
+      id="default"
+      [style.border-color]="
+        selectedPrice ? '#BF2CA4!important' : 'black!important'
+      "
+      class="text-black bg-white border border-solid hover:bg-black font-medium text-sm py-2.5 inline-flex items-center focus:[box-shadow:none]"
+      [(ngModel)]="selectedPrice"
+      (change)="sortArtworks($event.target, 'priceSortBy')"
+    >
+      <option value="">Price</option>
+      <option value="desc">Highest</option>
+      <option value="asc">Lowest</option>
+    </select>
+
+    <select
+      id="default"
+      class="text-black bg-white border border-solid border-black hover:bg-black font-medium text-sm py-2.5 inline-flex items-center focus:[box-shadow:none]"
+      [(ngModel)]="selectedCategory"
+      [style.border-color]="
+        selectedCategory ? '#BF2CA4!important' : 'black!important'
+      "
+      (change)="sortArtworks($event.target, 'category')"
+    >
+      @for (category of categories(); track category.id) {
+      <option [value]="category.id">
+        {{ category.name }}
+      </option>
+      }
+    </select>
+
+    @if (!isUserArtist()) {
+    <select
+      id="default"
+      class="text-black bg-white border border-solid border-black hover:bg-black font-medium text-sm py-2.5 inline-flex items-center focus:[box-shadow:none]"
+    >
+      <option selected>Artist</option>
+      <option value="US">Picasso</option>
+      <option value="CA">Matisse</option>
+      <option value="FR">Van Gogh</option>
+      <option value="DE">Monet</option>
+    </select>
+    }
+
+    <button
+      (click)="clearFilters()"
+      class="text-black text-sm font-medium px-2 py-2 hover:bg-gray-200 transition-all duration-300"
+    >
+      Clear All
+    </button>
+  </div>
+  <div>
+    @if (isUserArtist()) {
+    <button
+      class="text-white text-sm font-medium px-2 py-2 bg-purple-600 hover:bg-purple-700 transition-all duration-300 rounded-md"
+      routerLink="/add/artwork"
+    >
+      + Upload
+    </button>
+
+    }
+  </div>
+</div>

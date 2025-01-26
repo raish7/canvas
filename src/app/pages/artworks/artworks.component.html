@@ -1,100 +1,23 @@
-<div
-  class="min-h-screen bg-white pt-32"
->
-  <div
-    class="filters grid grid-cols-2 md:flex md:justify-between overflow-x-auto gap-2 px-4"
-  >
-    <div class="flex gap-4">
-      <select
-        id="default"
-        [style.border-color]="
-          selectedPrice ? '#BF2CA4!important' : 'black!important'
-        "
-        class="text-black bg-white border border-solid hover:bg-black font-medium text-sm py-2.5 inline-flex items-center focus:[box-shadow:none]"
-        [(ngModel)]="selectedPrice"
-        (change)="sortArtworks($event.target, 'priceSortBy')"
-      >
-        <option value="">Price</option>
-        <option value="desc">Highest</option>
-        <option value="asc">Lowest</option>
-      </select>
-
-      <select
-        id="default"
-        class="text-black bg-white border border-solid border-black hover:bg-black font-medium text-sm py-2.5 inline-flex items-center focus:[box-shadow:none]"
-        [(ngModel)]="selectedCategory"
-        [style.border-color]="
-          selectedCategory ? '#BF2CA4!important' : 'black!important'
-        "
-        (change)="sortArtworks($event.target, 'category')"
-      >
-        <option *ngFor="let category of categories" [value]="category.id">
-          {{ category.name }}
-        </option>
-      </select>
-
-      <select
-        *ngIf="!isUserArtist"
-        id="default"
-        class="text-black bg-white border border-solid border-black hover:bg-black font-medium text-sm py-2.5 inline-flex items-center focus:[box-shadow:none]"
-      >
-        <option selected>Artist</option>
-        <option value="US">Picasso</option>
-        <option value="CA">Matisse</option>
-        <option value="FR">Van Gogh</option>
-        <option value="DE">Monet</option>
-      </select>
-
-      <button
-        (click)="clearFilters()"
-        class="text-black text-sm font-medium px-2 py-2 hover:bg-gray-200 transition-all duration-300"
-      >
-        Clear All
-      </button>
-    </div>
-    <div>
-      <button
-      *ngIf="isUserArtist"
-        class="text-white text-sm font-medium px-2 py-2 bg-purple-600 hover:bg-purple-700 transition-all duration-300 rounded-md"
-        routerLink="/add/artwork"
-      >
-        + Upload
-      </button>
-    </div>
-  </div>
+<div class="min-h-screen">
+  <app-filter
+    [isUserArtist]="isUserArtist"
+    [categories]="categories"
+    (setFilter)="sortArtworks($event)"
+    (clearFilter)="clearFilters()"
+  ></app-filter>
   <main class="mx-auto px-4 py-8">
-    <div *ngIf="fetchingData">
-      <app-card-skeleton></app-card-skeleton>
-    </div>
-
-    <div *ngIf="!fetchingData">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="grid gap-4" *ngFor="let column of getColumns()">
-          <div *ngFor="let image of column" class="relative">
-            <img
-              class="h-auto max-w-full rounded-lg hover:scale-110 transition-all duration-300 cursor-pointer"
-              [src]="image.images[0]?.url || ''"
-              [alt]="'Artwork'"
-              (click)="navigateToArtworksDetail(image)"
-            />
-            <div class="mt-4 space-y-2">
-              <div class="flex flex-wrap gap-2">
-                <div *ngFor="let item of image.category">
-                  <span
-                    class="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold"
-                    >{{ item.category.name }}
-                  </span>
-                </div>
-              </div>
-              <h3 class=" font-bold cursor-pointer" (click)="navigateToArtist(image.artist)">{{ image.artist.name }}</h3>
-              <p class="text-sm text-gray-600">
-                {{ image.title }}
-              </p>
-              <p class="font-medium">Rs. {{ image.price }}</p>
-            </div>
-          </div>
-        </div>
+    @if (fetchingData) {
+    <app-card-skeleton></app-card-skeleton>
+    } @else {
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      @for(column of columns; track column) {
+      <div class="grid gap-4">
+        @for(image of column; track image) {
+        <app-artwork-card [image]="image"></app-artwork-card>
+        }
       </div>
+      }
     </div>
+    }
   </main>
 </div>

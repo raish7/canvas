@@ -8,6 +8,7 @@ import { FooterComponent } from './components/landing/footer/footer.component';
 import { initFlowbite } from 'flowbite';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ArtworksService } from './services/artworks/artworks.service';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class AppComponent {
   title = 'digital-art';
   showCartButton = false;
   cartItems = [];
-  constructor(private artworkService : ArtworksService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private artworkService : ArtworksService, private router: Router, private route: ActivatedRoute, public authService: AuthService) {}
   ngOnInit() {
     initFlowbite();
     this.artworkService.checkoutItems.subscribe((res: any) => {

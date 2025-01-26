@@ -1,0 +1,26 @@
+<img
+  class="h-auto max-w-full rounded-lg hover:scale-110 transition-all duration-300 cursor-pointer"
+  [src]="image().images[0]?.url || ''"
+  [alt]="'Artwork'"
+  (click)="navigateToArtworksDetail(image())"
+/>
+<div class="mt-4 space-y-2">
+  <div class="flex flex-wrap gap-2">
+    @for(item of image().category; track $index) {
+    <span
+      class="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold"
+      >{{ item.category.name }}
+    </span>
+    }
+  </div>
+  <h3
+    class="font-bold cursor-pointer"
+    (click)="navigateToArtist(image().artist)"
+  >
+    {{ image().artist.name }}
+  </h3>
+  <p class="text-sm text-gray-600">
+    {{ image().title }}
+  </p>
+  <p class="font-medium">Rs. {{ image().price }}</p>
+</div>

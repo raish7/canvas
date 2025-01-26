@@ -1,23 +1,22 @@
 import { Component } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
 import { ArtworksService } from '../../services/artworks/artworks.service';
 import { CardSkeletonComponent } from '../../components/skeleton/card-skeleton/card-skeleton.component';
 import { FormsModule } from '@angular/forms';
 import { UrlQueryService } from '../../utils/url-query.service';
 import { toastMixin } from '../../utils/toastMixin';
 import { AuthService } from '../../services/auth/auth.service';
+import { ArtworkCardComponent } from "../../components/artworks/artwork-card/artwork-card.component";
+import { FilterComponent } from "../../components/artworks/filter/filter.component";
 
 @Component({
   selector: 'app-artworks',
   standalone: true,
-  imports: [NgFor, NgIf, CardSkeletonComponent, FormsModule, RouterModule],
+  imports: [CardSkeletonComponent, FormsModule, ArtworkCardComponent, FilterComponent],
   templateUrl: './artworks.component.html',
   styleUrl: './artworks.component.scss',
 })
 export class ArtworksComponent {
   constructor(
-    private router: Router,
     private artworkService: ArtworksService,
     private urlQueryService: UrlQueryService,
     public authService: AuthService
@@ -35,6 +34,7 @@ export class ArtworksComponent {
   selectedPrice = '';
   selectedCategory = '';
   id = null;
+  columns : any;
 
   ngOnInit() {
     if (JSON.parse(localStorage.getItem('user') as any)?.roles.includes('ARTIST')) {
@@ -44,6 +44,7 @@ export class ArtworksComponent {
     this.getArtWorks();
     this.getCategories();
   }
+
   getColumns() {
     const columns: any[][] = [];
     const columnCount = 4; // Adjust based on your grid layout
@@ -63,6 +64,7 @@ export class ArtworksComponent {
       .subscribe({
         next: (data: any) => {
           this.artworksData = data.data;
+          this.columns = this.getColumns();
         },
         error: (err) => {
           console.log('err', err);
@@ -89,25 +91,14 @@ export class ArtworksComponent {
     });
   }
 
-  navigateToArtworksDetail(image: any) {
-    this.router.navigate(['artworks', image.id]);
-  }
-
-  navigateToArtist(artist: any) {
-    this.router.navigate([`/profile/${artist.id}`]);
-  }
-
-
-  sortArtworks(value: any, sortBy: 'priceSortBy' | 'category') {
-    this.query[sortBy] = value.value;
+  sortArtworks(event: { value: string, type: 'priceSortBy' | 'category' }) {
+    this.query[event.type] = event.value;
     this.getArtWorks();
   }
 
   clearFilters() {
     this.query.priceSortBy = '';
     this.query.category = '';
-    this.selectedCategory = '';
-    this.selectedPrice = '';
     this.getArtWorks();
   }
 }

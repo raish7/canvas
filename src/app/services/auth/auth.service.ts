@@ -32,4 +32,8 @@ export class AuthService {
   getUserProfile(id: number) {
     return this.http.get(`${environment.apiUrl}/profile/user/${id}`);
   }
+
+  updateUserProfile(id: number, data: any) {
+    return this.http.patch(`${environment.apiUrl}/profile/user/${id}`, data);
+  }
 }

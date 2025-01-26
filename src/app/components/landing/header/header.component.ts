@@ -61,4 +61,8 @@ export class HeaderComponent {
   routeToLogin() {
     this.router.navigate(['/login']);
   }
+
+  routeToProfile() {
+    this.router.navigate([`/profile/${this.currProfile.user.id}`]);
+  }
 }

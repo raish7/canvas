@@ -1,6 +1,6 @@
 import { Component, computed, signal, WritableSignal } from '@angular/core';
 import { ArtworksService } from '../../services/artworks/artworks.service';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from '../../services/payment/payment.service';
 import { Subscription } from 'rxjs';
@@ -22,7 +22,7 @@ import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [NgFor, FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })

@@ -21,12 +21,13 @@
       {{ artWork?.views }}
     </p>
     <div class="pt-3 flex flex-wrap gap-2 mb-8">
+      @for (cat of artWork?.category; track cat) {
       <span
         class="border-solid border-2 px-2 py-2 hover:shadow-md transition-all duration-300 hover:border-black cursor-pointer"
-        *ngFor="let cat of artWork?.category"
       >
         {{ cat.category.name }}
       </span>
+      }
     </div>
     <p class="text-xl mb-8">Price: Rs.{{ artWork?.price }}</p>
     <button
@@ -40,8 +41,11 @@
       class="mt-4 border border-solid border-black bg-white hover:bg-gray-200 text-gray-800 px-8 py-3 rounded-full text-lg hover:shadow-xl hover:text-black transition-all duration-300 w-full"
       (click)="addToCart(artWork)"
     >
-      <span *ngIf="!isAdded">Add to Cart</span>
-      <span *ngIf="isAdded">Added</span>
+      @if (!isAdded) {
+      <span>Add to Cart</span>
+      } @if (isAdded) {
+      <span>Added</span>
+      }
     </button>
   </div>
 </ng-container>

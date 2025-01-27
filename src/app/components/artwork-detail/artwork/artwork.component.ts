@@ -1,4 +1,4 @@
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArtworksService } from '../../../services/artworks/artworks.service';
@@ -7,7 +7,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 @Component({
   selector: 'app-artwork',
   standalone: true,
-  imports: [CommonModule, NgIf],
+  imports: [CommonModule],
   templateUrl: './artwork.component.html',
   styleUrl: './artwork.component.scss'
 })

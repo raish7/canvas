@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ArtworksService } from '../../services/artworks/artworks.service';
@@ -17,7 +17,7 @@ import { LlamaService } from '../../services/llama/llama.service';
 @Component({
   selector: 'app-artwork-form',
   standalone: true,
-  imports: [NgxDropzoneModule, NgFor, FormsModule, ReactiveFormsModule],
+  imports: [NgxDropzoneModule, FormsModule, ReactiveFormsModule],
   templateUrl: './artwork-form.component.html',
   styleUrl: './artwork-form.component.scss',
 })

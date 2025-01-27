@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
+
 @Component({
   selector: 'app-choose-us',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   templateUrl: './choose-us.component.html',
   styleUrl: './choose-us.component.scss'
 })

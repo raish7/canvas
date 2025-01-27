@@ -67,7 +67,8 @@
           >Review your items</span
         >
         <div class="pt-10 h-[208px] overflow-auto mb-4">
-          <div *ngFor="let item of checkoutItems()">
+          @for (item of checkoutItems(); track item) {
+          <div>
             <div class="flex justify-between mb-3">
               <div class="flex">
                 <img
@@ -76,7 +77,9 @@
                   alt="Artwork Image"
                 />
                 <div class="ml-4">
-                  <p class="text-lg font-bold">{{ item?.title }} ({{item.quantity}}Qty.)</p>
+                  <p class="text-lg font-bold">
+                    {{ item?.title }} ({{ item.quantity }}Qty.)
+                  </p>
                   <p class="text-sm text-gray-500">{{ item?.artist?.name }}</p>
                 </div>
               </div>
@@ -89,6 +92,7 @@
               </p>
             </div>
           </div>
+          }
         </div>
         <div class="pt-8 border-t border-gray-200">
           <div class="flex justify-between">

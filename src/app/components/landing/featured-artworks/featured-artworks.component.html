@@ -3,7 +3,8 @@
     Featured Artworks
   </h2>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-    <div *ngFor="let artwork of artworks" class="group">
+    @for (artwork of artworks; track artwork) {
+    <div class="group">
       <div
         class="bg-white rounded-2xl shadow-xl overflow-hidden transform transition duration-300 group-hover:scale-105 group-hover:shadow-2xl"
       >
@@ -41,14 +42,19 @@
             <i class="bi bi-bag mr-2"></i>
             Add to Cart
           </button> -->
-        </div>
-        <div class="pt-3 flex flex-wrap gap-2">
-          <span class="border-solid border-2 px-2 py-2 hover:shadow-md transition-all duration-300 hover:border-black cursor-pointer" *ngFor="let tag of artwork.tags">
-            {{ tag }}
-          </span>
-        </div>
+          </div>
+          <div class="pt-3 flex flex-wrap gap-2">
+            @for (tag of artwork.tags; track tag) {
+            <span
+              class="border-solid border-2 px-2 py-2 hover:shadow-md transition-all duration-300 hover:border-black cursor-pointer"
+            >
+              {{ tag }}
+            </span>
+            }
+          </div>
         </div>
       </div>
     </div>
+    }
   </div>
 </section>

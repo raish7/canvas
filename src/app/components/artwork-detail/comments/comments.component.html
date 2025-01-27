@@ -1,11 +1,19 @@
 <div class="flex items-center gap-2">
-  <img *ngIf="comment.author?.profile?.profilePic else noImage" [src]="comment.author.profile.profilePic" alt="profile pic" class="w-10 h-10 rounded-full">
-  <ng-template #noImage>
+  @if (comment.author?.profile?.profilePic) {
+  <img
+    [src]="comment.author.profile.profilePic"
+    alt="profile pic"
+    class="w-10 h-10 rounded-full"
+  />
+  } @else {
+
   <span
     class="rounded-full w-10 h-10 bg-gray-300 p-2 flex justify-center items-center ml-2"
     >{{ comment.author.name[0] }}</span
   >
-  </ng-template>
+
+  }
+
   <div>
     <span class="text-sm font-semibold">{{ comment.author.name }}</span>
     <p class="text-sm font-semibold">
@@ -16,12 +24,18 @@
 <p class="text-sm text-gray-500 mt-2 ml-14">
   {{ comment.content }}
 </p>
-<span class="cursor-pointer text-sm text-gray-500 ml-14" (click)="reply()">Reply</span>
+<span class="cursor-pointer text-sm text-gray-500 ml-14" (click)="reply()"
+  >Reply</span
+>
 
-<div *ngIf="comment?.replies?.length">
+@if (comment?.replies?.length) {
+<div>
   <div class="comment-reply ml-5 mt-3 p-3 border-gray-200 border-l-2">
-    <div *ngFor="let reply of comment.replies" class="m-3">
+    @for (reply of comment.replies; track reply) {
+    <div class="m-3">
       <app-comments [comment]="reply" [artworkId]="artworkId"></app-comments>
     </div>
+    }
   </div>
 </div>
+}

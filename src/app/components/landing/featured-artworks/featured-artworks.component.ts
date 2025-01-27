@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {NgFor} from '@angular/common';
+
 
 @Component({
   selector: 'app-featured-artworks',
   standalone: true,
-  imports: [NgFor],
+  imports: [],
   templateUrl: './featured-artworks.component.html',
   styleUrl: './featured-artworks.component.scss'
 })

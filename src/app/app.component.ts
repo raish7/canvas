@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import {NgFor, NgIf} from '@angular/common';
+
 import { HeaderComponent } from './components/landing/header/header.component';
 import { FeaturedArtworksComponent } from './components/landing/featured-artworks/featured-artworks.component';
 import { ChooseUsComponent } from './components/landing/choose-us/choose-us.component';
@@ -13,7 +13,7 @@ import { AuthService } from './services/auth/auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, DragDropModule, NgIf],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, DragDropModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

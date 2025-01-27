@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+
 import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile-cards',
   standalone: true,
-  imports: [NgFor, FormsModule],
+  imports: [FormsModule],
   templateUrl: './profile-cards.component.html',
   styleUrl: './profile-cards.component.scss',
 })

@@ -28,12 +28,13 @@
               >
                 Items
               </th>
+              @if (isUserArtist) {
               <th
-              *ngIf="isUserArtist"
                 class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
               >
                 Buyer
               </th>
+              }
               <th
                 class="border-b font-medium p-4 pl-8 pt-3 pb-3 text-slate-400 text-left"
               >
@@ -46,8 +47,10 @@
               </th>
             </tr>
           </thead>
-          <tbody *ngIf="purchases.length; else noOrders">
-            <tr *ngFor="let order of purchases" class="border-b">
+          @if (purchases.length) {
+          <tbody>
+            @for (order of purchases; track order) {
+            <tr class="border-b">
               <td class="border-b p-4 pl-8 pt-3 pb-3 w-3">
                 {{ order.pidx }}
               </td>
@@ -55,10 +58,8 @@
                 {{ order.createdAt | date : "medium" }}
               </td>
               <td class="border-b p-4 pl-8 pt-3 pb-3">
-                <div
-                  class="flex gap-2 pb-2"
-                  *ngFor="let item of order.artworks"
-                >
+                @for (item of order.artworks; track item) {
+                <div class="flex gap-2 pb-2">
                   <img
                     class="w-16 h-16 object-cover"
                     [src]="item.artwork?.images[0]?.url"
@@ -73,10 +74,13 @@
                     </p>
                   </div>
                 </div>
+                }
               </td>
-              <td *ngIf="isUserArtist" class="border-b p-4 pl-8 pt-3 pb-3">
+              @if (isUserArtist) {
+              <td class="border-b p-4 pl-8 pt-3 pb-3">
                 {{ order.buyer?.name || "N/A" }}
               </td>
+              }
               <td class="border-b p-4 pl-8 pt-3 pb-3">
                 Rs. {{ order.amount }}
               </td>
@@ -91,14 +95,17 @@
                 >
               </td>
             </tr>
+            }
           </tbody>
-          <ng-template #noOrders>
-            <tr>
-              <td class="border-b p-4 pl-8 pt-3 pb-3" colspan="5">
-                No orders found
-              </td>
-            </tr>
-          </ng-template>
+          } @else {
+
+          <tr>
+            <td class="border-b p-4 pl-8 pt-3 pb-3" colspan="5">
+              No orders found
+            </td>
+          </tr>
+
+          }
         </table>
       </div>
     </div>

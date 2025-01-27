@@ -30,15 +30,13 @@
                 PNG, JPG (MAX. 800x400px). Atleast 1 image required
               </p>
             </ngx-dropzone-label>
-            <ngx-dropzone-preview
-              *ngFor="let f of files"
-              [removable]="true"
-              (removed)="onRemove(f)"
-            >
+            @for (f of files; track f) {
+            <ngx-dropzone-preview [removable]="true" (removed)="onRemove(f)">
               <ngx-dropzone-label class="!overflow-hidden"
                 >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
               >
             </ngx-dropzone-preview>
+            }
           </ngx-dropzone>
         </div>
       </div>
@@ -81,9 +79,9 @@
         <ul
           class="grid grid-cols-3 md:grid-cols-4 gap-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         >
+          @for (category of categories; track category) {
           <li
             class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600"
-            *ngFor="let category of categories"
           >
             <div class="flex items-center ps-3">
               <input
@@ -100,6 +98,7 @@
               >
             </div>
           </li>
+          }
         </ul>
       </div>
       <div class="space-y-2 relative">

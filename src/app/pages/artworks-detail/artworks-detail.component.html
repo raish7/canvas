@@ -1,10 +1,11 @@
 <div class="min-h-screen">
   <div class="container max-w-7xl mx-auto px-4 py-8">
-    <div *ngIf="fetchingData">
+    @if (fetchingData) {
+    <div>
       <app-detail-page-skeleton></app-detail-page-skeleton>
     </div>
-
-    <div *ngIf="!fetchingData" class="grid grid-cols-12 gap-4">
+    } @if (!fetchingData) {
+    <div class="grid grid-cols-12 gap-4">
       <app-artwork
         [artWork]="artWork"
         class="w-full grid col-span-12 grid-cols-12 gap-4"
@@ -21,18 +22,21 @@
             <i class="bi bi-plus"></i> Add Comment
           </button>
         </div>
-        <div
-          *ngIf="comments.length; else noComments"
-          class="h-[600px] overflow-y-auto"
-        >
-          <div class="p-3 rounded-lg mt-3" *ngFor="let item of comments">
+        @if (comments.length) {
+        <div class="h-[600px] overflow-y-auto">
+          @for (item of comments; track item) {
+          <div class="p-3 rounded-lg mt-3">
             <app-comments [comment]="item" [artworkId]="id"></app-comments>
           </div>
+          }
         </div>
-        <ng-template #noComments>
-          <p class="text-md text-gray-600 mb-4">No comments yet</p>
-        </ng-template>
+        } @else {
+
+        <p class="text-md text-gray-600 mb-4">No comments yet</p>
+
+        }
       </div>
     </div>
+    }
   </div>
 </div>

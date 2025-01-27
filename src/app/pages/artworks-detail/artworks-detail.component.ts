@@ -1,4 +1,4 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+
 import { Component, computed, signal, WritableSignal } from '@angular/core';
 import { ArtworksService } from '../../services/artworks/artworks.service';
 import {
@@ -17,13 +17,10 @@ import { ArtworkComponent } from '../../components/artwork-detail/artwork/artwor
   selector: 'app-artworks-detail',
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
     DetailPageSkeletonComponent,
-    CommonModule,
     CommentsComponent,
-    ArtworkComponent,
-  ],
+    ArtworkComponent
+],
   templateUrl: './artworks-detail.component.html',
   styleUrl: './artworks-detail.component.scss',
 })

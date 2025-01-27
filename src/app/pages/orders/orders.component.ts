@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentService } from '../../services/payment/payment.service';
-import { CommonModule, NgClass, NgFor } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { switchMap, catchError, of } from 'rxjs';
 import { toastMixin } from '../../utils/toastMixin';
 import { AuthService } from '../../services/auth/auth.service';
@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [NgFor, NgClass, CommonModule],
+  imports: [NgClass, CommonModule],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',
 })
